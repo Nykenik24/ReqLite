@@ -1,17 +1,28 @@
 import chalk from "chalk";
 import { Command } from "commander";
 import axios from "axios";
-import { getParsedData, handleResponse, logError } from "./commons";
+import {
+  getParsedData,
+  handleHeaders,
+  handleResponse,
+  logError,
+} from "./commons";
+import crypto from "crypto";
 
 export async function putCommand(url: string, data: any, opts: any) {
   const parse_as_json = opts.json ? true : false;
   const start = Date.now();
+  const headers: { [key: string]: string } =
+    opts.header.length > 0
+      ? opts.header
+      : { "User-Agent": `reqlite-${crypto.randomBytes(16).toString("hex")}` };
 
   try {
     const parsed_data = getParsedData(data);
     const response = await axios.put(
       url,
       parse_as_json ? JSON.parse(parsed_data) : parsed_data,
+      { headers },
     );
 
     handleResponse(url, response, start);
@@ -28,5 +39,11 @@ export function registerPutCommand(req: Command) {
     .option("--json", "Parse data as JSON")
     .argument("<url>", "Target URL")
     .argument("<data>", "Data to send with the request")
+    .option(
+      "-H, --header",
+      "Set a header to a specific value",
+      handleHeaders,
+      {} as { [key: string]: string },
+    )
     .action(putCommand);
 }

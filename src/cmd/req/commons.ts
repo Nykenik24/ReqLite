@@ -39,3 +39,14 @@ export function getParsedData(data: any) {
   const variables = varDB.data.vars;
   return parseRequestData(data, secrets, variables);
 }
+
+export function handleHeaders(
+  header: string,
+  previous: { [key: string]: string },
+): { [key: string]: string } {
+  const splitted = header.replace(" ", "").split(":");
+  const name = splitted[0];
+  const value = splitted[1];
+  previous[name] = value;
+  return previous;
+}
