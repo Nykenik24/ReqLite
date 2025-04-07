@@ -1,7 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import chalk from "chalk";
 import { Command } from "commander";
 import { saveRequest, statusCheck } from "../../utils";
+import { handleResponse, logError, logResponse } from "./commons";
+import { stat } from "fs";
 
 export async function getCommand(url: string) {
   const start_time = Date.now();
@@ -16,7 +18,7 @@ export async function getCommand(url: string) {
     console.log(statusCheck(response.status));
     console.log(chalk.gray("Data: "), response.data);
     console.log(chalk.gray("Response time: ") + chalk.blue(`${delay}ms`));
-    saveRequest("GET", url, response.data, delay);
+    saveRequest("GET", url, response.data, response.status, delay);
   } catch (error: any) {
     end_time = Date.now();
     const delay = end_time - start_time;
@@ -33,10 +35,22 @@ export async function getCommand(url: string) {
   }
 }
 
+export async function getCommand_v2(url: string) {
+  const start = Date.now();
+
+  try {
+    const response = await axios.get(url);
+    handleResponse(url, response, start);
+  } catch (error: any) {
+    handleResponse(url, error.response, start);
+    logError(error);
+  }
+}
+
 export function registerGetCommand(req: Command) {
   req
     .command("get")
     .description("Send a GET request.")
     .argument("<url>", "Target URL")
-    .action(getCommand);
+    .action(getCommand_v2);
 }

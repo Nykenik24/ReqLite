@@ -31,6 +31,7 @@ export type ReqLiteRequest = {
   method: string;
   url: string;
   data: any;
+  status: number;
   delay: number;
   date: string;
 };
@@ -44,6 +45,7 @@ export function saveRequest(
   method: string,
   url: string,
   data: any,
+  status: number,
   response_time: number,
 ) {
   requestDB.update(({ requests }) =>
@@ -51,6 +53,7 @@ export function saveRequest(
       method: method,
       url: url,
       data: data,
+      status: status,
       delay: response_time,
       date: getFormattedDate(),
     }),
