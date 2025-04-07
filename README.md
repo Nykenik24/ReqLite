@@ -143,3 +143,8 @@ Example:
 reql var set who_loves_me "my horsey"
 reql var set what_i_love "my horsey"
 ```
+## Headers
+To set headers, use the `-H` (or `--header`) option. It can be used multiple times.
+```
+reql req get "https://coolershirts.com/shirts/coolest/1" -H "Username: Jhon" -H "Password: JhonnyDoe123"
+```
