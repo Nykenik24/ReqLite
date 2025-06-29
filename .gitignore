@@ -140,3 +140,6 @@ dist
 
 # releases
 release/
+
+# misc.
+.scannerwork/

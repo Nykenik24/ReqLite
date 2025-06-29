@@ -6,7 +6,7 @@ import { secretDB } from "../secret/secret";
 
 export function logResponse(response: AxiosResponse, delay: number) {
   console.log(statusCheck(response.status));
-  console.log(chalk.gray("Data: "), response.data);
+  console.log(chalk.gray("Data: "), JSON.stringify(response.data, null, 2));
   console.log(chalk.gray("Response time: ") + chalk.blue(`${delay}ms`));
 }
 

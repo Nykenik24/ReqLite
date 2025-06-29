@@ -59,8 +59,12 @@ export function listCommand(opts: any) {
       console.log(chalk.gray("Request of ") + element.date);
       console.log(`| ${chalk.blue("Method")}: `, element.method);
       console.log(`| ${chalk.blue("URL")}: `, element.url);
-      console.log(`| ${chalk.blue("Response time")}: `, element.delay);
-      if (display_data) console.log(`| ${chalk.blue("Data")}: `, element.data);
+      console.log(`| ${chalk.blue("Response time")}: ${element.delay}ms`);
+      if (display_data)
+        console.log(
+          `| ${chalk.blue("Data")}: `,
+          JSON.stringify(element.data, null, 2),
+        );
     }
   });
 }
