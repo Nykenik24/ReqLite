@@ -7,11 +7,12 @@ import chalk from "chalk";
 import { registerImportCommand } from "./cmd/import";
 import { registerSecretCommand } from "./cmd/secret/secret";
 import { registerVarCommand } from "./cmd/var/var";
+const version = process.env.npm_package_version || "Unknown";
 
 program
   .name("reql")
   .description("A lightweight CLI to test HTTP/HTTPS APIs")
-  .version("0.0.1");
+  .version(version);
 
 program.addCommand(registerReqCommand());
 program.addCommand(registerExportCommand());
